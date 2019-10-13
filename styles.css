@@ -1,0 +1,80 @@
+/*search-select*/
+.radiofan-search{
+	text-align:left;
+	font-family:inherit;
+    font-weight:inherit;
+	margin:0;
+	display:block;
+    width:100%;
+    margin-bottom:15px;
+	padding:0;
+    position:relative;
+    color:#acacac;
+    font-size:16px;
+    line-height:1.8;
+}
+
+div.radiofan-input{
+	font-size:12px;
+	display:block;
+	padding:0;
+	position:relative;
+}
+
+input.radiofan-input{
+	width:100%;
+	border-radius:2px 2px 2px 2px;
+	border-width:1px;
+    border-style:solid;
+    border-color:#9a9a9a;
+    color:#1c2434;
+    font-style:normal;
+    margin:0;
+}
+
+input.radiofan-input:focus{
+	border-color:#ffb600;
+}
+
+.radiofan-select{
+	font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+    color:inherit;
+	margin:0;
+	border-top-style:none;
+	border-right-style:solid;
+	border-bottom-style:solid;
+	border-left-style:solid;
+	border-width:1px;
+	border-radius:0px 0px 2px 2px;
+	overflow-y:auto;
+	position:absolute;
+	width:100%;
+	top:100%;
+	z-index:2;
+	display:none;
+}
+
+.radiofan-select > ul{
+	margin:0 !important;
+	list-style-type:none;
+}
+
+.radiofan-select > ul > hr{
+	margin-top:10px;
+}
+
+.radiofan-option{
+	margin:0;
+	padding:0px 2px 0px 15px;
+	cursor:pointer;
+}
+
+.radiofan-option:hover{
+	background-color:rgba(0,0,0,0.1);
+}
+
+.select-region{
+	background-color:rgba(140, 140, 140, 0.3);
+}
