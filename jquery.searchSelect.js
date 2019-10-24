@@ -137,16 +137,16 @@
 			});
 			temp = this.attr('name');
 			let $this = this.wrap('<div class="radiofan-search"></div>').parent();
-			$this.html('<div class="radiofan-input">\n<input type="hidden" name="'+temp+'">\n<input type="text" class="radiofan-input '+this.attr('class')+'" autocomplete="off" spellcheck="false" data-search-select="1">\n<div class="radiofan-select" style="display:none;">\n<ul>\n'+opts+'</ul>\n</div>\n</div>');
-			$this.data('searchSelect', {'name': temp});
+			$this.html('<div class="radiofan-input">\n<input type="hidden" name="'+temp+'">\n<input type="text" class="radiofan-input '+(this.attr('class') || '')+'" autocomplete="off" spellcheck="false" data-search-select="1">\n<div class="radiofan-select" style="display:none;">\n<ul>\n'+opts+'</ul>\n</div>\n</div>');
+			$this.data('searchSelect', {'name': temp}).find('input.radiofan-input').data('searchSelectName', temp);
 			return $this;
 		},
 		
 		gen_input: function(){
 			let name = this.attr('name');
 			let $this = this.wrap('<div class="radiofan-search"></div>').parent();
-			$this.html('<div class="radiofan-input">\n<input type="hidden" name="'+name+'">\n<input type="text" class="radiofan-input '+this.attr('class')+'" autocomplete="off" spellcheck="false" data-search-select="1">\n<div class="radiofan-select" style="display:none;">\n<ul>\n</ul>\n</div>\n</div>');
-			$this.data('searchSelect', {'name': name});
+			$this.html('<div class="radiofan-input">\n<input type="hidden" name="'+name+'">\n<input type="text" class="radiofan-input '+(this.attr('class') || '')+'" autocomplete="off" spellcheck="false" data-search-select="1">\n<div class="radiofan-select" style="display:none;">\n<ul>\n</ul>\n</div>\n</div>');
+			$this.data('searchSelect', {'name': name}).find('input.radiofan-input').data('searchSelectName', name);
 			return $this;
 		},
 		
@@ -241,7 +241,7 @@
             .data('searchSelect', {
 			  value: txt,
 			  flag:  false,
-			  opt:   this
+			  opt:   $(this)
 			})
 			.val(txt)
 			.blur();
@@ -253,10 +253,10 @@
 		
 		inputFocus: function(e){
 			let $input = $(this);
-			if($input.data('searchSelect').flag){
-				$input.val($input.data('searchSelect').value);
-			}else if($input.val() == '' || $input.data('searchSelect').value !== $input.val()){
-				let data = $input.data('searchSelect');
+			let data = $input.data('searchSelect');
+			if(data.flag){
+				$input.val(data.value);
+			}else if($input.val() == '' || data.value !== $input.val()){
 				data.flag = true;
 				$input.data('searchSelect', data);
 			}
@@ -269,13 +269,15 @@
 		
 		inputBlur: function(e){
 			let $input = $(this);
+			let data = $input.data('searchSelect');
 			if($input.data('searchSelect').flag){
-				let data = $input.data('searchSelect');
 				data.value = $input.val();
 				$input.data('searchSelect', data);
                 $input.val('');
+				$input.siblings('input[name = '+$input.data('searchSelectName')+' ]').val('');
 			}else{
-				$input.trigger('rad_select_complete', [$input.data('searchSelect').opt]);//Выбор опции
+				$input.siblings('input[name = '+$input.data('searchSelectName')+' ]').val(data.opt.data('value'));
+				$input.trigger('rad_select_complete', [data.opt]);//Выбор опции
 			}
 			$input.siblings('.radiofan-select').slideUp({
 			  duration: 100,
