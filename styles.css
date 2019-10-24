@@ -1,17 +1,13 @@
-/*search-select*/
 .radiofan-search{
 	text-align:left;
-	font-family:inherit;
-    font-weight:inherit;
 	margin:0;
-	display:block;
-    width:100%;
-    margin-bottom:15px;
+	display:inline-block;
+	width:40%;
+	margin-bottom:15px;
 	padding:0;
-    position:relative;
-    color:#acacac;
-    font-size:16px;
-    line-height:1.8;
+	position:relative;
+	font-size:16px;
+	line-height:1.8;
 }
 
 div.radiofan-input{
@@ -23,24 +19,11 @@ div.radiofan-input{
 
 input.radiofan-input{
 	width:100%;
-	border-radius:2px 2px 2px 2px;
-	border-width:1px;
-    border-style:solid;
-    border-color:#9a9a9a;
-    color:#1c2434;
-    font-style:normal;
-    margin:0;
-}
-
-input.radiofan-input:focus{
-	border-color:#ffb600;
+	font-style:normal;
+	margin:0;
 }
 
 .radiofan-select{
-	font-family:inherit;
-    font-size:inherit;
-    font-weight:inherit;
-    color:inherit;
 	margin:0;
 	border-top-style:none;
 	border-right-style:solid;
@@ -48,12 +31,16 @@ input.radiofan-input:focus{
 	border-left-style:solid;
 	border-width:1px;
 	border-radius:0px 0px 2px 2px;
+	border-color:#5b9dd9;
 	overflow-y:auto;
 	position:absolute;
+	background-color:#fff;
 	width:100%;
 	top:100%;
-	z-index:2;
+	z-index:8000;
 	display:none;
+	max-height:180px;
+	box-sizing: border-box;
 }
 
 .radiofan-select > ul{
@@ -61,7 +48,7 @@ input.radiofan-input:focus{
 	list-style-type:none;
 }
 
-.radiofan-select > ul > hr{
+.radiofan-select  hr{
 	margin-top:10px;
 }
 
