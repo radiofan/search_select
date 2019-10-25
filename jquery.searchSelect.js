@@ -89,6 +89,48 @@
 			});
 		},
 		
+		selectOpt: function(val, text){
+			return this.each(function(ind, $elem){
+				let data = $elem.data('searchSelect');
+				if(!$.isEmptyObject(data)){
+					val = val || '';
+					text = text || '';
+					if($elem.get(0).tagName.toLowerCase() === 'input' && $elem.hasClass('radiofan-input')){
+						$elem = $elem.closest('.radiofan-search');
+					}else if($elem.get(0).tagName.toLowerCase() !== 'div' || !$elem.hasClass('radiofan-search')){
+						console.error($elem + ' isn\'t searchSelect');
+					}
+					let flag = true;
+					if(val && text){
+						let $opt = $elem.find('.radiofan-option[data-value = '+val+']');
+						if($opt.size()){
+							$opt.each(function(i, el){
+								if(flag && $opt.get(i).text() === text){
+									flag = false;
+									$opt.eq(i).mousedown();
+								}
+							});
+						}
+					}else if(val){
+						let $opt = $elem.find('.radiofan-option[data-value = '+val+']');
+						if($opt.size()){
+							$opt.eq(0).mousedown();
+						}
+					}else if(text){
+						let $opt = $elem.find('.radiofan-option');
+						if($opt.size()){
+							$opt.each(function(i, el){
+								if(flag && $opt.get(i).text() === text){
+									flag = false;
+									$opt.eq(i).mousedown();
+								}
+							});
+						}
+					}
+				}
+			});
+		},
+		
 		escapeRegExp: function(txt){
 			return txt.replace(/[-[\]{}()*+?.\\^$|\s]/g, "\\$&");
 		},
@@ -122,6 +164,14 @@
 			return box;
 		},
 		
+		scrolReset: function($select){
+			let data = $select.data('searchSelect');
+			data.scroling = 1;
+			data.scrol = 0;
+			$select.data('searchSelect', data);
+			$select.children().children('.radiofan-select').scrollTop(data.scrol);
+		},
+		
 		gen_select: function(){
 			let opts = '';
 			let temp, temp1;
@@ -138,7 +188,7 @@
 			temp = this.attr('name');
 			let $this = this.wrap('<div class="radiofan-search"></div>').parent();
 			$this.html('<div class="radiofan-input">\n<input type="hidden" name="'+temp+'">\n<input type="text" class="radiofan-input '+(this.attr('class') || '')+'" autocomplete="off" spellcheck="false" data-search-select="1">\n<div class="radiofan-select" style="display:none;">\n<ul>\n'+opts+'</ul>\n</div>\n</div>');
-			$this.data('searchSelect', {'name': temp}).find('input.radiofan-input').data('searchSelectName', temp);
+			$this.data('searchSelect', {'name': temp}).find('input.radiofan-input').data({'searchSelectName': name, 'searchSelect': {}});
 			return $this;
 		},
 		
@@ -146,10 +196,11 @@
 			let name = this.attr('name');
 			let $this = this.wrap('<div class="radiofan-search"></div>').parent();
 			$this.html('<div class="radiofan-input">\n<input type="hidden" name="'+name+'">\n<input type="text" class="radiofan-input '+(this.attr('class') || '')+'" autocomplete="off" spellcheck="false" data-search-select="1">\n<div class="radiofan-select" style="display:none;">\n<ul>\n</ul>\n</div>\n</div>');
-			$this.data('searchSelect', {'name': name}).find('input.radiofan-input').data('searchSelectName', name);
+			$this.data('searchSelect', {'name': name}).find('input.radiofan-input').data({'searchSelectName': name, 'searchSelect': {}});
 			return $this;
 		},
 		
+		//дальше нельзя вызвать
 		boardNav: function(e){
 			var $input = $(this);
 			var $opt;
@@ -270,7 +321,7 @@
 		inputBlur: function(e){
 			let $input = $(this);
 			let data = $input.data('searchSelect');
-			if($input.data('searchSelect').flag){
+			if(data.flag){
 				data.value = $input.val();
 				$input.data('searchSelect', data);
                 $input.val('');
@@ -320,14 +371,6 @@
 					});
 				}
 			}
-		},
-		
-		scrolReset: function($select){
-			let data = $select.data('searchSelect');
-			data.scroling = 1;
-			data.scrol = 0;
-			$select.data('searchSelect', data);
-			$select.children().children('.radiofan-select').scrollTop(data.scrol);
 		}
 	};
 		
